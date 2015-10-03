@@ -162,14 +162,19 @@ public class PriorityManager : MonoBehaviour
 
     private void InitializeSecondaryCharacter(DynamicCharacter character, GameObject[] obstacles)
     {
-       /* var priority = new PriorityMovement
+        /* var priority = new PriorityMovement
+         {
+             Character = character.KinematicData
+         };*/
+
+
+         var blended = new BlendedMovement
         {
             Character = character.KinematicData
-        };*/
-
+        };
 
         //TODO: add your AvoidObstacle movement here
-        
+
         foreach (var obstacle in obstacles)
         {
             var avoidObstacleMovement = new DynamicAvoidObstacle()
@@ -185,12 +190,12 @@ public class PriorityManager : MonoBehaviour
           /*  priority.Movements.Add(avoidObstacleMovement);
             this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, obstacles.Length + this.Characters.Count));*/
 
-        }
-        
-        
-            
-                //TODO: add your avoidCharacter movement here
-                var avoidCharacter = new DynamicAvoidCharacters(Flock)
+    }
+
+
+
+    //TODO: add your avoidCharacter movement here
+    var avoidCharacter = new DynamicAvoidCharacters(Flock)
                 {
                     Character = character.KinematicData,
                     MaxAcceleration = MAX_ACCELERATION,
@@ -222,7 +227,7 @@ public class PriorityManager : MonoBehaviour
 
         //priority.Movements.Add(straightAhead);
         // priority.Movements.Add(wander);
-         this.Blended.Movements.Add(new MovementWithWeight(wander, obstacles.Length + this.Flock.Count));
+         blended.Movements.Add(new MovementWithWeight(wander, obstacles.Length + this.Flock.Count));
 
          //character.Movement = priority;
 
@@ -250,7 +255,8 @@ public class PriorityManager : MonoBehaviour
             radius = FLOCK_RADIUS
         };
 
-        this.Blended.Movements.Add(new MovementWithWeight(DynamicCohesionMovement, obstacles.Length + this.Flock.Count));
+        blended.Movements.Add(new MovementWithWeight(DynamicCohesionMovement, obstacles.Length + this.Flock.Count));
+        character.Movement = blended;
     }
 
     private List<DynamicCharacter> CloneSecondaryCharacters(GameObject objectToClone,int numberOfCharacters, GameObject[] obstacles)
