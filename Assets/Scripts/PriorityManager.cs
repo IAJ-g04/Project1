@@ -22,6 +22,8 @@ public class PriorityManager : MonoBehaviour
 
     private Text RedMovementText { get; set; }
 
+    private GameObject[] obstacles;
+
     //Characters
     private DynamicCharacter RedCharacter { get; set; }
     private List<DynamicCharacter> Flock { get; set; }
@@ -40,13 +42,15 @@ public class PriorityManager : MonoBehaviour
 	    this.RedMovementText = GameObject.Find("RedMovement").GetComponent<Text>();
 		var redObj = GameObject.Find ("Red");
 
+        
+
 	    this.RedCharacter = new DynamicCharacter(redObj)
 	    {
 	        Drag = DRAG,
 	        MaxSpeed = MAX_SPEED
 	    };
         
-	    var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+	    obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
 	    this.Flock = this.CloneSecondaryCharacters(redObj, 10, obstacles);
 	    this.Flock.Add(this.RedCharacter);
@@ -58,6 +62,7 @@ public class PriorityManager : MonoBehaviour
 	    {
 	        this.InitializeSecondaryCharacter(character, obstacles);
 	    }
+
 
 	}
 
@@ -294,6 +299,41 @@ public class PriorityManager : MonoBehaviour
 		{
 			this.RedCharacter.Movement = null;
 		} 
+
+        if (Input.GetMouseButton(0))
+        {
+            Camera camera = GetComponent<Camera>();
+            Vector3 PointInWorld = camera.ScreenToWorldPoint(Input.mousePosition);
+
+            foreach (var character in this.Flock)
+            {
+                var DynamicSeekMovement = new DynamicSeek()
+                {
+                    Character = this.RedCharacter.KinematicData,
+                    MaxAcceleration = MAX_ACCELERATION,
+                    MovementDebugColor = Color.blue,
+                    Flock = this.Flock
+                };
+                
+                BlendedMovement movement = (BlendedMovement)character.Movement;
+                MovementWithWeight seekSearch = movement.Movements.Find(x => x.Movement.Name == "Seek");
+
+                if (seekSearch != null)
+                {
+                    movement.Movements.Remove(seekSearch);
+                    seekSearch.Movement.Target.position = PointInWorld;
+                }
+                else
+                {
+                    movement.Movements.Add(new MovementWithWeight(DynamicSeekMovement, obstacles.Length + this.Flock.Count));
+                }
+
+                character.Movement = movement;
+
+            }
+
+        }
+
 
 	    foreach (var character in this.Flock)
 	    {
