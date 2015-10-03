@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class PriorityManager : MonoBehaviour
 {
+    //Constants
     public const float X_WORLD_SIZE = 55;
     public const float Z_WORLD_SIZE = 32.5f;
     public const float AVOID_MARGIN = 8.0f;
@@ -15,16 +16,22 @@ public class PriorityManager : MonoBehaviour
     public const float MAX_LOOK_AHEAD = 10.0f;
     public const float MAX_ACCELERATION = 40.0f;
     public const float DRAG = 0.1f;
-
-	private DynamicCharacter RedCharacter { get; set; }
+    public const float FLOCK_SEPARATION_FACTOR = 5.0f;
+    public const float FLOCK_RADIUS = 10.0f;
+    public const float FLOCK_FAN_ANGLE = 10.0f;
 
     private Text RedMovementText { get; set; }
 
+    // Movement Engines
     private BlendedMovement Blended { get; set; }
-
     private PriorityMovement Priority { get; set; }
 
-    private List<DynamicCharacter> Characters { get; set; }
+    //Characters
+    private DynamicCharacter RedCharacter { get; set; }
+    private List<DynamicCharacter> Flock { get; set; }
+
+    //Movements
+    private DynamicSeparation DynamicSeparationMovement { get; set; }
 
 	// Use this for initialization
 	void Start () 
@@ -50,16 +57,29 @@ public class PriorityManager : MonoBehaviour
         
 	    var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
-	    this.Characters = this.CloneSecondaryCharacters(redObj, 0, obstacles);
-	    this.Characters.Add(this.RedCharacter);
+	    this.Flock = this.CloneSecondaryCharacters(redObj, 0, obstacles);
+	    this.Flock.Add(this.RedCharacter);
 
         this.InitializeMainCharacter(obstacles);
 
         //initialize all but the last character (because it was already initialized as the main character)
-	    foreach (var character in this.Characters.Take(this.Characters.Count-1))
+	    foreach (var character in this.Flock.Take(this.Flock.Count-1))
 	    {
 	        this.InitializeSecondaryCharacter(character, obstacles);
 	    }
+
+        //Initialize Movements
+
+        DynamicSeparationMovement = new DynamicSeparation()
+        {
+            Character = this.RedCharacter.KinematicData,
+            MaxAcceleration = MAX_ACCELERATION,
+            MovementDebugColor = Color.blue,
+            Flock = this.Flock,
+            SeparationFactor = FLOCK_SEPARATION_FACTOR,
+            Radius = FLOCK_RADIUS
+        };
+
 	}
 
     private void InitializeMainCharacter(GameObject[] obstacles)
@@ -92,7 +112,7 @@ public class PriorityManager : MonoBehaviour
            }
 
                 //TODO: add your AvoidCharacter movement here
-                var avoidCharacter = new DynamicAvoidCharacters(Characters)
+                var avoidCharacter = new DynamicAvoidCharacters(Flock)
                 {
                     MaxLookAhead = MAX_LOOK_AHEAD,
                     Character = this.RedCharacter.KinematicData,
@@ -153,7 +173,7 @@ public class PriorityManager : MonoBehaviour
         
             
                 //TODO: add your avoidCharacter movement here
-                var avoidCharacter = new DynamicAvoidCharacters(Characters)
+                var avoidCharacter = new DynamicAvoidCharacters(Flock)
                 {
                     Character = character.KinematicData,
                     MaxAcceleration = MAX_ACCELERATION,
@@ -252,7 +272,7 @@ public class PriorityManager : MonoBehaviour
 		    this.RedCharacter.Movement = this.Priority;
 		}*/
 
-	    foreach (var character in this.Characters)
+	    foreach (var character in this.Flock)
 	    {
 	        this.UpdateMovingGameObject(character);
 	    }
