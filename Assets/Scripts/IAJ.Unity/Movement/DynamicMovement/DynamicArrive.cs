@@ -32,7 +32,11 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             float targetSpeed;
 
             if (distance < stopRadius)
-                return null;
+            {
+                var output = new MovementOutput();
+                return output;
+
+            }
             if (distance > slowRadius)
                 targetSpeed = maxSpeed;
             else

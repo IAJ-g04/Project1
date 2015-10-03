@@ -12,7 +12,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 
         public DynamicFlockVelocityMatch()
         {
-            this.Target = new KinematicData();
+            this.MovingTarget = new KinematicData();
         }
 
 
@@ -54,7 +54,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             }
 
             averageVelocity /= closeBoids;
-            this.Target.velocity = averageVelocity;
+            this.MovingTarget.velocity = averageVelocity;
 
             return base.GetMovement();
         }
