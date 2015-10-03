@@ -50,7 +50,7 @@ public class PriorityManager : MonoBehaviour
         
 	    var obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
-	    this.Characters = this.CloneSecondaryCharacters(redObj, 50, obstacles);
+	    this.Characters = this.CloneSecondaryCharacters(redObj, 0, obstacles);
 	    this.Characters.Add(this.RedCharacter);
 
         this.InitializeMainCharacter(obstacles);
@@ -64,7 +64,7 @@ public class PriorityManager : MonoBehaviour
 
     private void InitializeMainCharacter(GameObject[] obstacles)
     {
-        this.Priority = new PriorityMovement
+        /*this.Priority = new PriorityMovement
         {
             Character = this.RedCharacter.KinematicData
         };
@@ -72,7 +72,7 @@ public class PriorityManager : MonoBehaviour
         this.Blended = new BlendedMovement
         {
             Character = this.RedCharacter.KinematicData
-        };
+        };*/
         foreach(var obstacle in obstacles){
 
             //TODO: add your AvoidObstacle movement here
@@ -86,8 +86,8 @@ public class PriorityManager : MonoBehaviour
                 Obstacle = obstacle,
                 MovementDebugColor = Color.magenta
             };
-             this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, 5.0f));
-           this.Priority.Movements.Add(avoidObstacleMovement);
+        /*     this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, 5.0f));
+           this.Priority.Movements.Add(avoidObstacleMovement);*/
 
            }
 
@@ -101,8 +101,8 @@ public class PriorityManager : MonoBehaviour
                     MovementDebugColor = Color.cyan 
                 };
 
-                this.Priority.Movements.Add(avoidCharacter);
-        this.Blended.Movements.Add(new MovementWithWeight(avoidCharacter, obstacles.Length + this.Characters.Count));
+               /* this.Priority.Movements.Add(avoidCharacter);
+        this.Blended.Movements.Add(new MovementWithWeight(avoidCharacter, obstacles.Length + this.Characters.Count));*/
 
 
         /*
@@ -116,19 +116,19 @@ public class PriorityManager : MonoBehaviour
             MovementDebugColor = Color.yellow
         };
 
-        this.Priority.Movements.Add(wander);
+      /*  this.Priority.Movements.Add(wander);
         this.Blended.Movements.Add(new MovementWithWeight(wander,obstacles.Length+this.Characters.Count));
 
-        this.RedCharacter.Movement = this.Blended;
+        this.RedCharacter.Movement = this.Blended;*/
 
     }
 
     private void InitializeSecondaryCharacter(DynamicCharacter character, GameObject[] obstacles)
     {
-        var priority = new PriorityMovement
+       /* var priority = new PriorityMovement
         {
             Character = character.KinematicData
-        };
+        };*/
 
 
         //TODO: add your AvoidObstacle movement here
@@ -145,8 +145,8 @@ public class PriorityManager : MonoBehaviour
                 MovementDebugColor = Color.magenta
             };
 
-            priority.Movements.Add(avoidObstacleMovement);
-            this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, obstacles.Length + this.Characters.Count));
+          /*  priority.Movements.Add(avoidObstacleMovement);
+            this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, obstacles.Length + this.Characters.Count));*/
 
         }
         
@@ -162,8 +162,8 @@ public class PriorityManager : MonoBehaviour
                     MovementDebugColor = Color.cyan
                 };
 
-                priority.Movements.Add(avoidCharacter);
-        this.Blended.Movements.Add(new MovementWithWeight(avoidCharacter, obstacles.Length + this.Characters.Count));
+                /*priority.Movements.Add(avoidCharacter);
+        this.Blended.Movements.Add(new MovementWithWeight(avoidCharacter, obstacles.Length + this.Characters.Count));*/
 
 
 
@@ -184,10 +184,10 @@ public class PriorityManager : MonoBehaviour
         };
 
         //priority.Movements.Add(straightAhead);
-        priority.Movements.Add(wander);
+       /* priority.Movements.Add(wander);
         this.Blended.Movements.Add(new MovementWithWeight(wander, obstacles.Length + this.Characters.Count));
 
-        character.Movement = priority;
+        character.Movement = priority;*/
     }
 
     private List<DynamicCharacter> CloneSecondaryCharacters(GameObject objectToClone,int numberOfCharacters, GameObject[] obstacles)
@@ -243,14 +243,14 @@ public class PriorityManager : MonoBehaviour
 		{
 			this.RedCharacter.Movement = null;
 		} 
-		else if (Input.GetKeyDown (KeyCode.B))
+		/*else if (Input.GetKeyDown (KeyCode.B))
 		{
 		    this.RedCharacter.Movement = this.Blended;
 		}
 		else if (Input.GetKeyDown (KeyCode.P))
 		{
 		    this.RedCharacter.Movement = this.Priority;
-		}
+		}*/
 
 	    foreach (var character in this.Characters)
 	    {
