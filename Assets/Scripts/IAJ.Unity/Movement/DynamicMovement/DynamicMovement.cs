@@ -9,6 +9,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
         public abstract KinematicData Target { get; set; }
         public float MaxAcceleration { get; set; }
         public Color MovementDebugColor { get; set; }
+        public GameObject[] Flock { get; set; }
 
         public DynamicMovement()
         {
