@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.IAJ.Unity.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,13 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 {
     public class DynamicCohesion : DynamicArrive
     {
+
+        public DynamicCohesion()
+        {
+            this.Target = new KinematicData();
+        }
+
+
         public override string Name
         {
             get { return "Cohesion"; }
@@ -22,23 +30,33 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 
             Vector3 massCenter = new Vector3();
             float closeBoids = 0.0f;
-            foreach(GameObject boid in Flock)
+            foreach(DynamicCharacter boid in Flock)
             {
-              //  if(this.Character != boid.GetComponent)
+                if(this.Character != boid.KinematicData)
+                {
+                    Vector3 direction = boid.KinematicData.position - this.Character.position;
+                    if(direction.sqrMagnitude <= radius)
+                    {
+                        float angle = MathHelper.ConvertVectorToOrientation(direction);
+                        float angleDiff = MathHelper.ShortestAngleDifference(this.Character.orientation, angle);
+                        if( Math.Abs(angleDiff) <= FanAngle)
+                        {
+                            massCenter += boid.KinematicData.position;
+                            closeBoids++;
+                        }
+                    }
+                }
             }
 
-
-            var output = new MovementOutput();
-
-            output.linear = this.Target.position - this.Character.position;
-
-            if (output.linear.sqrMagnitude > 0)
+            if(closeBoids == 0)
             {
-                output.linear.Normalize();
-                output.linear *= this.MaxAcceleration;
+                return new MovementOutput();
             }
 
-            return output;
+            massCenter /= closeBoids;
+            this.Target.position = massCenter;
+
+            return base.GetMovement();
         }
     }
 }
