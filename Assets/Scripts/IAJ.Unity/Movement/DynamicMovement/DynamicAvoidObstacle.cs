@@ -20,9 +20,20 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 
 		public GameObject Obstacle { get; set; }
 
+        public const int SkipFrameRate = 5;
+        public int FrameCounter = 0;
+
         public override MovementOutput GetMovement()
         {
-
+            if(FrameCounter >= SkipFrameRate)
+            {
+                FrameCounter = 0;
+                return new MovementOutput();
+            }
+            else
+            {
+                FrameCounter++;
+            }
 
 			Ray RayVector = new Ray(this.Character.position, Character.velocity.normalized);
 

@@ -108,7 +108,7 @@ public class PriorityManager : MonoBehaviour
                 MovementDebugColor = Color.magenta
             };
             
-            //  Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, (obstacles.Length + this.Flock.Count) * AVOIDOB));
+              Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, (obstacles.Length + this.Flock.Count) * AVOIDOB));
 
         }
      
@@ -260,7 +260,7 @@ public class PriorityManager : MonoBehaviour
                     Target = new KinematicData(),
                     MaxSpeed = MAXSPEED,
                     SlowRadius = 0,
-                    StopRadius = STOPRADIUS*Flock.Count
+                    StopRadius = (STOPRADIUS*Flock.Count)/20
                 };
 
                 if (arriveSearch != null)
@@ -278,7 +278,7 @@ public class PriorityManager : MonoBehaviour
                         if (arriveSearch != null)
                         {
                             DynamicArrive DynamicArriveMovement = (DynamicArrive)arriveSearch.Movement;
-                            if (FlockArriveCount >= this.Flock.Count - (this.Flock.Count))
+                            if (FlockArriveCount >= this.Flock.Count)
                             {
                                 movement.Movements.Remove(arriveSearch);
                     /*
