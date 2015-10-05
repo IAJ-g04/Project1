@@ -14,7 +14,7 @@ public class PriorityManager : MonoBehaviour
     public const float CAMERA_Y = 55.8f;
     public const float X_WORLD_SIZE = 55;
     public const float Z_WORLD_SIZE = 32.5f;
-    public const float AVOID_MARGIN = 8.0f;
+    public const float AVOID_MARGIN =9.0f;
     public const float MAX_SPEED = 20.0f;
     public const float MAX_LOOK_AHEAD = 10.0f;
     public const float MAX_ACCELERATION = 40.0f;
@@ -30,6 +30,8 @@ public class PriorityManager : MonoBehaviour
     public const float FLOCK_FAN_ANGLE = 60.0f;
 
     //Arrive
+    public const float FLOCK_SEPARATION_FACTOR =5000.0f;
+
     public const float MAXSPEED = 30.0f;
     public const float SLOWRADIUS = 15.0f;
     public const float STOPRADIUS = 3.0f;
@@ -114,8 +116,8 @@ public class PriorityManager : MonoBehaviour
                 Obstacle = obstacle,
                 MovementDebugColor = Color.magenta
             };
-            /*     this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, 5.0f));
-               this.Priority.Movements.Add(avoidObstacleMovement);*/
+                 Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, 5.0f));
+              // this.Priority.Movements.Add(avoidObstacleMovement);
 
         }
 
@@ -207,8 +209,8 @@ public class PriorityManager : MonoBehaviour
                 MovementDebugColor = Color.magenta
             };
 
-            /*  priority.Movements.Add(avoidObstacleMovement);
-              this.Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, obstacles.Length + this.Characters.Count));*/
+             // priority.Movements.Add(avoidObstacleMovement);
+              Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, obstacles.Length + this.Flock.Count));
 
         }
 
