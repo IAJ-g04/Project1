@@ -14,14 +14,14 @@ public class PriorityManager : MonoBehaviour
     public const float X_WORLD_SIZE = 55;
     public const float Z_WORLD_SIZE = 32.5f;
     public const float AVOID_MARGIN =12.0f;
-    public const float MAX_SPEED = 20.0f;
+    public const float MAX_SPEED = 40.0f;
     public const float MAX_LOOK_AHEAD = 10.0f;
     public const float MAX_ACCELERATION = 40.0f;
     public const float DRAG = 0.1f;
-    public const float FLOCK_SEPARATION_FACTOR =5000.0f;
-    public const float FLOCK_RADIUS = 150.0f;
+    public const float FLOCK_SEPARATION_FACTOR =1000.0f;
+    public const float FLOCK_RADIUS = 50.0f;
     public const float FLOCK_FAN_ANGLE = 90.0f;
-    public const float MAXSPEED = 30.0f;
+    public const float MAXSPEED = 20.0f;
     public const float SLOWRADIUS = 15.0f;
     public const float STOPRADIUS = 3.0f;
     public const float FLOCK_PERCENTAGE = 0.25f;
@@ -30,7 +30,7 @@ public class PriorityManager : MonoBehaviour
     //Blended
     float COHESIONB = 7f;
     float SEPARATIONB = 4f;
-    float ALIGNB = 4f;
+    float ALIGNB = 6f;
     float ARRIVEB = 4f;
     float AVOIDOB = 9f;
 
@@ -62,6 +62,7 @@ public class PriorityManager : MonoBehaviour
         {
             Drag = DRAG,
             MaxSpeed = MAX_SPEED
+
         };
         
         obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -88,6 +89,7 @@ public class PriorityManager : MonoBehaviour
         {
             Character = this.RedCharacter.KinematicData
         };
+        
 
         //Obstacles : TO FINISH
         foreach (var obstacle in obstacles)
@@ -369,8 +371,8 @@ public class PriorityManager : MonoBehaviour
                     Flock = this.Flock,
                     Target = new KinematicData(),
                     MaxSpeed = MAXSPEED,
-                    SlowRadius = SLOWRADIUS,
-                    StopRadius = STOPRADIUS
+                    SlowRadius = 0,
+                    StopRadius = STOPRADIUS*Flock.Count
                 };
 
                 if (arriveSearch != null)

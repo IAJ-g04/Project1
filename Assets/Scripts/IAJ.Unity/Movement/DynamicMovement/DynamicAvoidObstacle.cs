@@ -23,35 +23,34 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
         public override MovementOutput GetMovement()
         {
 
-			Ray RayVector = new Ray(this.Character.position,this.Character.velocity.normalized);
+
+			Ray RayVector = new Ray(this.Character.position, Character.velocity.normalized);
 
             Ray WhiskerA = new Ray(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, 45.0f));
             Ray WhiskerB = new Ray(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, -45.0f));
 
-            RaycastHit hit = new RaycastHit();
-            RaycastHit hitA = new RaycastHit();
-            RaycastHit hitB = new RaycastHit();
+            RaycastHit hit;
+            RaycastHit hitA;
+            RaycastHit hitB;
 
-            bool Collision = Obstacle.GetComponent<Collider>().Raycast(RayVector, out hit, LookAhead);
-            bool CollisionA = Obstacle.GetComponent<Collider>().Raycast(WhiskerA, out hit, LookAhead*0.1f);
-            bool CollisionB = Obstacle.GetComponent<Collider>().Raycast(WhiskerB, out hit, LookAhead*0.1f);
 
             Debug.DrawRay(this.Character.position, this.Character.velocity.normalized * LookAhead, new Color(255,0,0));
             Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, 45.0f) * LookAhead * 0.1f, new Color(0, 255, 0));
             Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, -45.0f) * LookAhead * 0.1f, new Color(0, 0, 255));
 
-            if (!Collision && !CollisionA && !CollisionB) return new MovementOutput();
 
-            if(Collision)
-             this.Target.position = hit.point + hit.normal * AvoidDistance;
+            if (Obstacle.GetComponent<Collider>().Raycast(RayVector, out hit, LookAhead))
+                this.Target.position = hit.point + hit.normal * AvoidDistance;
 
-            else if (CollisionA)
+            else if (Obstacle.GetComponent<Collider>().Raycast(WhiskerA, out hitA, LookAhead * 0.1f))
                 this.Target.position = hitA.point + hitA.normal * AvoidDistance;
 
-            else if (CollisionB)
+            else if (Obstacle.GetComponent<Collider>().Raycast(WhiskerB, out hitB, LookAhead * 0.1f))
                 this.Target.position = hitB.point + hitB.normal * AvoidDistance;
+            else
+                return new MovementOutput();
 
-			return base.GetMovement();
+            return base.GetMovement();
 
         }
     }
