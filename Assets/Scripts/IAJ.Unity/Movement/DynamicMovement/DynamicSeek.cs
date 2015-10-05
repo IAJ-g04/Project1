@@ -8,7 +8,7 @@
         }
 
         public override KinematicData Target { get; set; }
-
+        
         public override MovementOutput GetMovement()
         {
             var output = new MovementOutput();

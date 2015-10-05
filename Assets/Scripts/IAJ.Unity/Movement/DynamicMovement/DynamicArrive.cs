@@ -9,20 +9,19 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
 
         public DynamicArrive()
         {
-            this.maxSpeed = 20.0f;
-            this.slowRadius = 15.0f;
-            this.stopRadius = 3.0f;
+            Arrived = false;
         }
+
         public override string Name
         {
             get { return "Arrive"; }
         }
-        public float maxSpeed { get; private set; }
+        public float MaxSpeed { get; set; }
 
-        public float stopRadius { get; private set; }
-        public float slowRadius { get; private set; }
+        public float StopRadius { get;  set; }
+        public float SlowRadius { get; set; }
 
-
+        public bool Arrived { get; set; }
 
 
         public override MovementOutput GetMovement()
@@ -31,16 +30,17 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             float distance = Vector3.Magnitude(direction);
             float targetSpeed;
 
-            if (distance < stopRadius)
+            if (distance < StopRadius)
             {
+                Arrived = true;
                 var output = new MovementOutput();
                 return output;
-
             }
-            if (distance > slowRadius)
-                targetSpeed = maxSpeed;
+
+            if (distance > SlowRadius)
+                targetSpeed = MaxSpeed;
             else
-                targetSpeed = maxSpeed * (distance / slowRadius);
+                targetSpeed = MaxSpeed * (distance / SlowRadius);
 
             this.MovingTarget = new KinematicData();
             this.MovingTarget.velocity = direction.normalized * targetSpeed;
