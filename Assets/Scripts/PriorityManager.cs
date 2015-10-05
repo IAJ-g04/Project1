@@ -24,14 +24,12 @@ public class PriorityManager : MonoBehaviour
     public const float FLOCK_RADIUS = 20.0f;
 
     //Separation
-    public const float FLOCK_SEPARATION_FACTOR = 2.0f;
+    public const float FLOCK_SEPARATION_FACTOR = 5000.0f;
 
     //Cohesion && VelocityMatching
     public const float FLOCK_FAN_ANGLE = 60.0f;
 
     //Arrive
-    public const float FLOCK_SEPARATION_FACTOR =5000.0f;
-
     public const float MAXSPEED = 30.0f;
     public const float SLOWRADIUS = 15.0f;
     public const float STOPRADIUS = 3.0f;
