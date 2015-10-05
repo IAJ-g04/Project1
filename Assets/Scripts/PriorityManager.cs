@@ -13,7 +13,7 @@ public class PriorityManager : MonoBehaviour
     public const float CAMERA_Y = 55.8f;
     public const float X_WORLD_SIZE = 55;
     public const float Z_WORLD_SIZE = 32.5f;
-    public const float AVOID_MARGIN =9.0f;
+    public const float AVOID_MARGIN =12.0f;
     public const float MAX_SPEED = 20.0f;
     public const float MAX_LOOK_AHEAD = 10.0f;
     public const float MAX_ACCELERATION = 40.0f;
@@ -25,6 +25,14 @@ public class PriorityManager : MonoBehaviour
     public const float SLOWRADIUS = 15.0f;
     public const float STOPRADIUS = 3.0f;
     public const float FLOCK_PERCENTAGE = 0.25f;
+
+
+    //Blended
+    float COHESIONB = 7f;
+    float SEPARATIONB = 4f;
+    float ALIGNB = 4f;
+    float ARRIVEB = 4f;
+    float AVOIDOB = 9f;
 
     private Text RedMovementText { get; set; }
 
@@ -96,7 +104,7 @@ public class PriorityManager : MonoBehaviour
                 Obstacle = obstacle,
                 MovementDebugColor = Color.magenta
             };
-                 Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, 5.0f));
+                 Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, (obstacles.Length + this.Flock.Count) * AVOIDOB));
               // this.Priority.Movements.Add(avoidObstacleMovement);
 
         }
@@ -134,7 +142,7 @@ public class PriorityManager : MonoBehaviour
             Radius = FLOCK_RADIUS
         };
 
-        Blended.Movements.Add(new MovementWithWeight(DynamicSeparationMovement, obstacles.Length + this.Flock.Count));
+        Blended.Movements.Add(new MovementWithWeight(DynamicSeparationMovement, (obstacles.Length + this.Flock.Count) * SEPARATIONB));
 
         var DynamicCohesionMovement = new DynamicCohesion()
         {
@@ -146,7 +154,7 @@ public class PriorityManager : MonoBehaviour
             radius = FLOCK_RADIUS
         };
 
-        Blended.Movements.Add(new MovementWithWeight(DynamicCohesionMovement, obstacles.Length + this.Flock.Count));
+        Blended.Movements.Add(new MovementWithWeight(DynamicCohesionMovement, (obstacles.Length + this.Flock.Count) * COHESIONB));
 
         var DynamicFlockVelocityMatchMovement = new DynamicFlockVelocityMatch()
         {
@@ -158,7 +166,7 @@ public class PriorityManager : MonoBehaviour
             radius = FLOCK_RADIUS
         };
 
-        Blended.Movements.Add(new MovementWithWeight(DynamicFlockVelocityMatchMovement, obstacles.Length + this.Flock.Count));
+        Blended.Movements.Add(new MovementWithWeight(DynamicFlockVelocityMatchMovement, (obstacles.Length + this.Flock.Count) * ALIGNB));
 
         this.RedCharacter.Movement = Blended;
 
@@ -187,7 +195,7 @@ public class PriorityManager : MonoBehaviour
             };
 
              // priority.Movements.Add(avoidObstacleMovement);
-              Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, obstacles.Length + this.Flock.Count));
+              Blended.Movements.Add(new MovementWithWeight(avoidObstacleMovement, (obstacles.Length + this.Flock.Count) * AVOIDOB));
 
         }
 
@@ -224,7 +232,7 @@ public class PriorityManager : MonoBehaviour
             Radius = FLOCK_RADIUS
         };
 
-        Blended.Movements.Add(new MovementWithWeight(DynamicSeparationMovement, obstacles.Length + this.Flock.Count));
+        Blended.Movements.Add(new MovementWithWeight(DynamicSeparationMovement, (obstacles.Length + this.Flock.Count) * SEPARATIONB));
 
         var DynamicCohesionMovement = new DynamicCohesion()
         {
@@ -236,7 +244,7 @@ public class PriorityManager : MonoBehaviour
             radius = FLOCK_RADIUS
         };
 
-        Blended.Movements.Add(new MovementWithWeight(DynamicCohesionMovement, obstacles.Length + this.Flock.Count));
+        Blended.Movements.Add(new MovementWithWeight(DynamicCohesionMovement, (obstacles.Length + this.Flock.Count) * COHESIONB));
 
         var DynamicFlockVelocityMatchMovement = new DynamicFlockVelocityMatch()
         {
@@ -248,7 +256,7 @@ public class PriorityManager : MonoBehaviour
             radius = FLOCK_RADIUS
         };
 
-        Blended.Movements.Add(new MovementWithWeight(DynamicFlockVelocityMatchMovement, obstacles.Length + this.Flock.Count));
+        Blended.Movements.Add(new MovementWithWeight(DynamicFlockVelocityMatchMovement, (obstacles.Length + this.Flock.Count) * ALIGNB));
 
         character.Movement = Blended;
     }
@@ -372,7 +380,7 @@ public class PriorityManager : MonoBehaviour
 
                 DynamicArriveMovement.Target.position = PointInWorld;
                 DynamicArriveMovement.Target.position.y = character.KinematicData.position.y;
-                movement.Movements.Add(new MovementWithWeight(DynamicArriveMovement, obstacles.Length + this.Flock.Count));
+                movement.Movements.Add(new MovementWithWeight(DynamicArriveMovement, (obstacles.Length + this.Flock.Count) * ARRIVEB));
 
                 character.Movement = movement;
             }
