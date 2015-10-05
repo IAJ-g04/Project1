@@ -14,7 +14,7 @@ public class PriorityManager : MonoBehaviour
     public const float X_WORLD_SIZE = 55;
     public const float Z_WORLD_SIZE = 32.5f;
     public const float AVOID_MARGIN =12.0f;
-    public const float MAX_SPEED = 30.0f;
+    public const float MAX_SPEED = 40.0f;
     public const float MAX_LOOK_AHEAD = 10.0f;
     public const float DRAG = 0.1f;
     public const float MAXSPEED = 30.0f;
@@ -38,7 +38,7 @@ public class PriorityManager : MonoBehaviour
     //Blended
     float COHESIONB = 7f;
     float SEPARATIONB = 4f;
-    float ALIGNB = 4f;
+    float ALIGNB = 6f;
     float ARRIVEB = 4f;
     float AVOIDOB = 9f;
 
@@ -70,6 +70,7 @@ public class PriorityManager : MonoBehaviour
         {
             Drag = DRAG,
             MaxSpeed = MAX_SPEED
+
         };
         
         obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
@@ -258,8 +259,8 @@ public class PriorityManager : MonoBehaviour
                     Flock = this.Flock,
                     Target = new KinematicData(),
                     MaxSpeed = MAXSPEED,
-                    SlowRadius = 0.0f,
-                    StopRadius = (STOPRADIUS * this.Flock.Count)/2
+                    SlowRadius = 0,
+                    StopRadius = STOPRADIUS*Flock.Count
                 };
 
                 if (arriveSearch != null)
