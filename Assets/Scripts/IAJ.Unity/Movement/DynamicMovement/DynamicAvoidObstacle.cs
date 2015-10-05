@@ -37,8 +37,8 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             bool CollisionB = Obstacle.GetComponent<Collider>().Raycast(WhiskerB, out hit, LookAhead*0.04f);
 
             Debug.DrawRay(this.Character.position, this.Character.velocity.normalized * LookAhead, new Color(255,0,0));
-            Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, 45.0f) * LookAhead * 0.04f, new Color(0, 255, 0));
-            Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, -45.0f) * LookAhead * 0.04f, new Color(0, 0, 255));
+            Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, 45.0f) * LookAhead * 0.06f, new Color(0, 255, 0));
+            Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, -45.0f) * LookAhead * 0.06f, new Color(0, 0, 255));
 
             if (!Collision && !CollisionA && !CollisionB) return new MovementOutput();
 
