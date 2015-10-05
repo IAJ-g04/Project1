@@ -39,7 +39,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             Debug.DrawRay(this.Character.position, this.Character.velocity.normalized * LookAhead, new Color(255,0,0));
             Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, 45.0f) * LookAhead * 0.1f, new Color(0, 255, 0));
             Debug.DrawRay(this.Character.position, MathHelper.Rotate2D(this.Character.velocity, -45.0f) * LookAhead * 0.1f, new Color(0, 0, 255));
-
+            
             if (!Collision && !CollisionA && !CollisionB) return new MovementOutput();
 
             if(Collision)

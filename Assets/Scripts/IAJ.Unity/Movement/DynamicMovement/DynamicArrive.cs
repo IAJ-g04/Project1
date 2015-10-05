@@ -33,7 +33,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
             if (distance < StopRadius)
             {
                 Arrived = true;
-                var output = new MovementOutput();
+                MovementOutput output = new MovementOutput();
                 return output;
             }
 

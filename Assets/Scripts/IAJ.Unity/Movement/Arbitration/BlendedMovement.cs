@@ -47,9 +47,11 @@ namespace Assets.Scripts.IAJ.Unity.Movement.Arbitration
 
             foreach (MovementWithWeight movementWithWeight in this.Movements)
             {
+                
                 movementWithWeight.Movement.Character = this.Character;
 
                 tempOutput = movementWithWeight.Movement.GetMovement();
+                if (tempOutput.Equals(Vector3.zero)) continue;
                 if (tempOutput.SquareMagnitude() > 0)
                 {
                     finalOutput.linear += tempOutput.linear * movementWithWeight.Weight;

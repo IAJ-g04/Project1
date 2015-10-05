@@ -19,7 +19,7 @@ namespace Assets.Scripts.IAJ.Unity.Movement.DynamicMovement
         {
             var output = new MovementOutput();
 
-            foreach (DynamicCharacter boid in this.Flock)
+            foreach (DynamicCharacter boid in Flock)
             {
                 if (boid.KinematicData != this.Character)
                 {
